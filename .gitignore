@@ -32,7 +32,19 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+**/build/
+.dart_tool/
+.pub-cache/
+.packages
 
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Misc
+*.log
+*.lock
 # Symbolication related
 app.*.symbols
 
