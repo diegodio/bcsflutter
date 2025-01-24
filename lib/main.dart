@@ -103,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                   scanFormat: ScanFormat.ONLY_BARCODE,
                 );
                 setState(() {
-                  barcode_num = res as String;
+                  barcode_num = res;
                 });
               },
               style: ButtonStyle(
