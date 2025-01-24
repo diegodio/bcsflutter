@@ -35,46 +35,21 @@ class _HomePageState extends State<HomePage> {
   String result = '';
   int barcode_num = 0;
   String nome = '';
-
   Future<void> fetchData() async {
     final url =
         Uri.parse("https://teste-api-ashen.vercel.app/produtos/$barcode_num");
     try {
       final response = await http.get(url);
-      Map<String, dynamic> data = {
-        "nome": "Creme Hidratante Facial com Retinol 50g",
-        "ingredientes": [
-          "Água",
-          "Glicerina",
-          "Óleo de Semente de Jojoba",
-          "Manteiga de Karité",
-          "Dimeticona",
-          "Ácido Hialurônico",
-          "Polissorbato 20",
-          "Caprililglicol",
-          "Tocoferol",
-          "Retinol",
-          "Ácido Linoleico",
-          "Isoestearato De Sorbitana",
-          "Extrato De Camomila",
-          "Lecitina",
-          "Ácido Láctico",
-          "Fenoxietanol",
-          "Fragrância",
-          "Limoneno"
-        ],
-        "ingrediente_ruim": true,
-      };
-      if (true) {
-        //response.statusCode == 200
-        // final data = json.decode(response.body);
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
         setState(() {
-          result = "Dados da Venda:\n${data['item']}";
+          //result = "Dados da Venda:\n${data['item']}";
           nome = data['nome'];
         });
       } else {
         setState(() {
-          result = "Erro: "; //${response.statusCode}
+          result = "Erro: ${response.statusCode}";
         });
       }
     } catch (e) {
