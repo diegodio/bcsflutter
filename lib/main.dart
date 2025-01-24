@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
-
-// import 'barcode_widget_page.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 void main() {
   runApp(const MyApp());
@@ -32,6 +33,57 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String result = '';
+  int barcode_num = 0;
+  String nome = '';
+
+  Future<void> fetchData() async {
+    final url =
+        Uri.parse("https://teste-api-ashen.vercel.app/produtos/$barcode_num");
+    try {
+      final response = await http.get(url);
+      Map<String, dynamic> data = {
+        "nome": "Creme Hidratante Facial com Retinol 50g",
+        "ingredientes": [
+          "Água",
+          "Glicerina",
+          "Óleo de Semente de Jojoba",
+          "Manteiga de Karité",
+          "Dimeticona",
+          "Ácido Hialurônico",
+          "Polissorbato 20",
+          "Caprililglicol",
+          "Tocoferol",
+          "Retinol",
+          "Ácido Linoleico",
+          "Isoestearato De Sorbitana",
+          "Extrato De Camomila",
+          "Lecitina",
+          "Ácido Láctico",
+          "Fenoxietanol",
+          "Fragrância",
+          "Limoneno"
+        ],
+        "ingrediente_ruim": true,
+      };
+      if (true) {
+        //response.statusCode == 200
+        // final data = json.decode(response.body);
+        setState(() {
+          result = "Dados da Venda:\n${data['item']}";
+          nome = data['nome'];
+        });
+      } else {
+        setState(() {
+          result = "Erro: "; //${response.statusCode}
+        });
+      }
+    } catch (e) {
+      setState(() {
+        result = "Erro ao fazer a requisição: $e";
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +91,28 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ElevatedButton(
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Scan Barcode Result: $barcode_num'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Nome: ${nome.toString()}'),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Color(0xFFAFD0D6),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IconButton(
+              icon: Icon(FontAwesomeIcons.barcode, color: Colors.black),
+              iconSize: 40.0,
               onPressed: () async {
                 String? res = await SimpleBarcodeScanner.scanBarcode(
                   context,
@@ -58,40 +131,16 @@ class _HomePageState extends State<HomePage> {
                   result = res as String;
                 });
               },
-              child: const Text('Scan Barcode'),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text('Scan Barcode Result: $result'),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                SimpleBarcodeScanner.streamBarcode(
-                  context,
-                  barcodeAppBar: const BarcodeAppBar(
-                    appBarTitle: 'Test',
-                    centerTitle: false,
-                    enableBackButton: true,
-                    backButtonIcon: Icon(Icons.arrow_back_ios),
+              style: ButtonStyle(
+                backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
+                shape: WidgetStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
                   ),
-                  isShowFlashIcon: true,
-                  delayMillis: 2000,
-                ).listen((event) {
-                  print("Stream Barcode Result: $event");
-                });
-              },
-              child: const Text('Stream Barcode'),
+                ),
+              ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: null,
-              child: Text("dio"),
-            ),
+            SizedBox(width: 40), // Espaço para o FAB
           ],
         ),
       ),
