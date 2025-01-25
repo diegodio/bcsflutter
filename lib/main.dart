@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   String nome = '';
   Future<void> fetchData() async {
     final url =
-        Uri.parse("https://teste-api-ashen.vercel.app/produtos/$result");
+        Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
     try {
       final response = await http.get(url);
 
