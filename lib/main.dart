@@ -35,11 +35,10 @@ class _HomePageState extends State<HomePage> {
   String result = '';
   // int barcode_num = 0;
   String nome = '';
-  String chegou = 'Ainda nao chegou';
+  String chegou = 'ainda nao chegou';
 
   Future<void> fetchData(result) async {
-    final url =
-        Uri.parse("https://teste-api-ashen.vercel.app/vendas/" + "$result");
+    final url = Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
     try {
       final response = await http.get(url);
 
@@ -76,11 +75,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Text('Nome: $nome'),
-            const SizedBox(
-              height: 10,
-            ),
-            Text('Chegou: $chegou'),
+            Text('Nome: ${nome.toString()}'),
             const SizedBox(
               height: 10,
             ),
