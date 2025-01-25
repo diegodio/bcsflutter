@@ -33,11 +33,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   String result = '';
-  int barcode_num = 0;
+  // int barcode_num = 0;
   String nome = '';
   Future<void> fetchData() async {
     final url =
-        Uri.parse("https://teste-api-ashen.vercel.app/produtos/$barcode_num");
+        Uri.parse("https://teste-api-ashen.vercel.app/produtos/$result");
     try {
       final response = await http.get(url);
 
@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Text('Scan Barcode Result: $barcode_num'),
+            Text('Scan Barcode Result: $result'),
             const SizedBox(
               height: 10,
             ),
@@ -102,9 +102,12 @@ class _HomePageState extends State<HomePage> {
                   cameraFace: CameraFace.back,
                   scanFormat: ScanFormat.ONLY_BARCODE,
                 );
-                setState(() {
-                  barcode_num = res;
-                });
+                setState(
+                  () {
+                    result = res as String;
+                  },
+                );
+                fetchData();
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
