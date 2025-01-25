@@ -35,9 +35,11 @@ class _HomePageState extends State<HomePage> {
   String result = '';
   // int barcode_num = 0;
   String nome = '';
-  Future<void> fetchData() async {
+  String chegou = 'Ainda nao chegou';
+
+  Future<void> fetchData(result) async {
     final url =
-        Uri.parse("https://teste-api-ashen.vercel.app/produtos/$result");
+        Uri.parse("https://teste-api-ashen.vercel.app/vendas/" + "$result");
     try {
       final response = await http.get(url);
 
@@ -46,6 +48,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           //result = "Dados da Venda:\n${data['item']}";
           nome = data['nome'];
+          chegou = 'chegou até aqui';
         });
       } else {
         setState(() {
@@ -73,7 +76,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Text('Nome: ${nome.toString()}'),
+            Text('Nome: $nome'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Chegou: $chegou'),
             const SizedBox(
               height: 10,
             ),
@@ -107,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                     result = res as String;
                   },
                 );
-                fetchData();
+                fetchData(result);
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
