@@ -35,25 +35,30 @@ class _HomePageState extends State<HomePage> {
   String result = '';
   // int barcode_num = 0;
   String nome = '';
-  String chegou = 'ainda nao chegou';
-
+  dynamic ingredientes;
+  dynamic chegou = 'ainda nao chegou';
+  bool ingrediente_ruim = false;
+  
   Future<void> fetchData(result) async {
     final url = Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
     try {
       final response = await http.get(url);
-
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          //result = "Dados da Venda:\n${data['item']}";
-          nome = data;
-          chegou = 'chegou até aqui';
-        });
-      } else {
-        setState(() {
-          result = "Erro: ${response.statusCode}";
-        });
-      }
+      setState(() {
+        nome = json.decode(response.body)['nome'];
+        ingredientes = json.decode(response.body)['ingredientes'].join(", ");
+      });
+      // if (response.statusCode == 200) {
+      //   final data = json.decode(response.body);
+      //   setState(() {
+      //     //result = "Dados da Venda:\n${data['item']}";
+      //     nome = data;
+      //     chegou = 'chegou até aqui 2';
+      //   });
+      // } else {
+      //   setState(() {
+      //     result = "Erro: ${response.statusCode}";
+      //   });
+      // }
     } catch (e) {
       setState(() {
         result = "Erro ao fazer a requisição: $e";
@@ -76,6 +81,10 @@ class _HomePageState extends State<HomePage> {
               height: 10,
             ),
             Text('Nome: $nome'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('Ingredientes: $ingredientes'),
             const SizedBox(
               height: 10,
             ),
