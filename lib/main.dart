@@ -75,7 +75,11 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 10,
             ),
-            Text('Nome: ${nome.toString()}'),
+            Text('Nome: $nome'),
+            const SizedBox(
+              height: 10,
+            ),
+            Text('chegou: $chegou'),
             const SizedBox(
               height: 10,
             ),
