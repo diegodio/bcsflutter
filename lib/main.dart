@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   String result = '';
   // int barcode_num = 0;
   String nome = '';
-  Future<void> fetchData() async {
+  Future<void> fetchData(result) async {
     final url =
         Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
     try {
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                     result = res as String;
                   },
                 );
-                fetchData();
+                fetchData(result);
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
