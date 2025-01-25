@@ -37,29 +37,29 @@ class _HomePageState extends State<HomePage> {
   String nome = '';
   String chegou = 'ainda nao chegou';
 
-  Future<void> fetchData(result) async {
-    final url = Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
-    try {
-      final response = await http.get(url);
+  // Future<void> fetchData(result) async {
+  //   final url = Uri.parse("https://teste-api-ashen.vercel.app/vendas/$result");
+  //   try {
+  //     final response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        final data = json.decode(response.body);
-        setState(() {
-          //result = "Dados da Venda:\n${data['item']}";
-          nome = data['nome'];
-          chegou = 'chegou até aqui';
-        });
-      } else {
-        setState(() {
-          result = "Erro: ${response.statusCode}";
-        });
-      }
-    } catch (e) {
-      setState(() {
-        result = "Erro ao fazer a requisição: $e";
-      });
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //       final data = json.decode(response.body);
+  //       setState(() {
+  //         //result = "Dados da Venda:\n${data['item']}";
+  //         nome = data['nome'];
+  //         chegou = 'chegou até aqui';
+  //       });
+  //     } else {
+  //       setState(() {
+  //         result = "Erro: ${response.statusCode}";
+  //       });
+  //     }
+  //   } catch (e) {
+  //     setState(() {
+  //       result = "Erro ao fazer a requisição: $e";
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,12 +108,34 @@ class _HomePageState extends State<HomePage> {
                   cameraFace: CameraFace.back,
                   scanFormat: ScanFormat.ONLY_BARCODE,
                 );
-                setState(
-                  () {
-                    result = res as String;
-                  },
-                );
-                fetchData(result);
+                final url =
+                    Uri.parse("https://teste-api-ashen.vercel.app/vendas/$res");
+                try {
+                  final response = await http.get(url);
+
+                  if (response.statusCode == 200) {
+                    final data = json.decode(response.body);
+                    setState(() {
+                      //result = "Dados da Venda:\n${data['item']}";
+                      nome = data['nome'];
+                      chegou = 'chegou até aqui';
+                    });
+                  } else {
+                    setState(() {
+                      result = "Erro: ${response.statusCode}";
+                    });
+                  }
+                } catch (e) {
+                  setState(() {
+                    result = "Erro ao fazer a requisição: $e";
+                  });
+                }
+                // setState(
+                //   () {
+                //     result = res as String;
+                //   },
+                // );
+                // fetchData(result);
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
