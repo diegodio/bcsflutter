@@ -102,9 +102,12 @@ class _HomePageState extends State<HomePage> {
                   cameraFace: CameraFace.back,
                   scanFormat: ScanFormat.ONLY_BARCODE,
                 );
-                setState(() {
-                  result = res as String;
-                });
+                setState(
+                  () {
+                    result = res as String;
+                  },
+                );
+                fetchData();
               },
               style: ButtonStyle(
                 backgroundColor: WidgetStateProperty.all(Colors.blue[50]),
